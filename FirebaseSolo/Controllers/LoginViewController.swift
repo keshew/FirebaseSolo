@@ -10,26 +10,47 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
-    //MARK: - var/let
-    
-    let segueToTask = "toTask"
-    
-    
-    
-    
     //MARK: - Outlets
     
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
+    
+    
+    
+    
+    //MARK: - var/let
+    
+    let segueToTask = "toTask"
+    var ref: Firebase.DatabaseReference!
+    
+    
+    
+    
     //MARK: - Ovveride
     
     override func viewDidLoad() {
         super.viewDidLoad()
         warningLabel.alpha = 0
+        ref = Firebase.Database.database().reference(withPath: "users")
+        FirebaseAuth.Auth.auth().addStateDidChangeListener { [ weak self ] auth, user in
+            if user != nil {
+                self?.performSegue(withIdentifier: (self?.segueToTask)!, sender: nil)
+            }
+        }
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        emailTF.text = ""
+        passwordTF.text = ""
+    }
+    
+    
+    
+    
     
     //MARK: - MainCode
     
@@ -86,22 +107,19 @@ class LoginViewController: UIViewController {
         }
         
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [ weak self ]  user, error in
-            if error == nil {
-                if user != nil {
-                    self?.performSegue(withIdentifier: (self?.segueToTask)!, sender: nil)
-                }
+            guard error == nil, user != nil else {
+                self?.displayWarningLabel(withText: "User is not created")
+                return
             }
+            let userRef = self?.ref.child((user?.user.uid)!)
+            userRef?.setValue(["email": user?.user.email])
         }
-        
-        
-        
-        
-        
     }
     
     
     
     
     
+    
+    
 }
-

@@ -27,4 +27,11 @@ struct Task {
         isCompleted = snapshotValue["isCompleted"] as! Bool
         ref = snapshot.ref
     }
+    
+    
+    
+    func convertToDic() -> Any {
+        return ["title": title, "userID": userID, "isCompleted": isCompleted]
+    }
+    
 }

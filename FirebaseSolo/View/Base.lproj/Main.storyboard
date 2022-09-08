@@ -47,7 +47,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tasks" id="gcf-XZ-O0U">
-                        <barButtonItem key="leftBarButtonItem" title="Sign out" id="pzU-Pd-ZLl"/>
+                        <barButtonItem key="leftBarButtonItem" title="Sign out" id="pzU-Pd-ZLl">
+                            <connections>
+                                <action selector="signOut:" destination="1Qs-nQ-mMn" id="MSa-zj-8sN"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kuU-BB-hLl">
                             <connections>
                                 <action selector="addTapped:" destination="1Qs-nQ-mMn" id="EXL-Sf-YdV"/>
